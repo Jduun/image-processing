@@ -1,0 +1,38 @@
+services:
+  image-processing:
+    image: image-processing:latest
+    restart: unless-stopped
+    ports:
+      - "5001:80"
+    env_file:
+      - .env
+
+  image-processing-worker:
+    image: image-processing:latest
+    restart: "unless-stopped"
+    volumes:
+      - ~/images:/images
+    command: ["python3", "-u", "/app/src/scripts/tasks_worker.py"]
+    env_file:
+      - .env
+
+  image-processing-db:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres_image_processing
+    volumes:
+      - ~/image_processing_db/postgres:/var/lib/postgresql/data
+    ports:
+      - "5600:5432"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password

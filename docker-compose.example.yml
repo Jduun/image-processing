@@ -10,6 +10,8 @@ services:
   image-processing-worker:
     image: image-processing:latest
     restart: "unless-stopped"
+    deploy:
+      replicas: 3
     volumes:
       - ~/images:/images
     command: ["python3", "-u", "/app/src/scripts/tasks_worker.py"]

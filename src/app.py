@@ -31,7 +31,7 @@ app.json = PydanticJSONEncoder(app)
 
 @app.errorhandler(ModuleException)
 def handle_app_exception(e: ModuleException):
-    if e.code == 500 or config.debug:
+    if e.code == 500 or os.getenv("DEBUG", "False") == "True":
         import traceback
 
         traceback.print_exc()

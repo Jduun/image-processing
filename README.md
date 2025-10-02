@@ -91,12 +91,16 @@ rabbit:
     "input_image_id": 34,
     "operation_type": "resizing",
     "parameters": {
-        "width": 6000, // значение по умолчанию - ширина растра
-        "height": 7000, // значение по умолчанию - высота растра
-        "resample_alg": "cubic" // значение по умолчанию - "bilinear"
+        "width": 6000,
+        "height": 7000,
+        "resample_alg": "cubic"
     }
 }
 ```
+Значения по умолчанию:
+- `width` - ширина исходного растра
+- `height` - высота исходного растра
+- `resample_alg` - "bilinear"
 
 **Ответ**: `application/json` `200 OK`
 ```json
@@ -126,10 +130,12 @@ rabbit:
     "input_image_id": 34,
     "operation_type": "resizing",
     "parameters": {
-        "dst_srs": "EPSG:3857" // значение по умолчанию - "EPSG:4326"
+        "dst_srs": "EPSG:3857"
     }
 }
 ```
+Значения по умолчанию:
+- `dst_srs` - "EPSG:4326"
 
 **Ответ**: `application/json` `200 OK`
 ```json

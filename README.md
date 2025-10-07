@@ -2,7 +2,7 @@
 
 ## Установка
 
-### docker-compose.yml
+### [docker-compose.yml](./docker-compose.example.yml)
 ```yaml
 services:
   file-storage:
@@ -65,7 +65,7 @@ services:
 ```
 
 ### Пояснение к архитектуре
-`file-storage` - Flask приложение, предоставляющее API для работы с файлами
+`file-storage` - сервис, предоставляющий API для работы с файлами
 
 `file-storage-db` - база данных PostgreSQL 
 
@@ -77,7 +77,7 @@ services:
 
 `rabbitmq` - очередь для хранения задач, позволяющая сделать обработку изображений асинхронной 
 
-### config.yaml
+### [config.yaml](./src/config/config.example.yaml)
 ```yaml
 image_processing:
   host: "0.0.0.0"

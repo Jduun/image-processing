@@ -8,6 +8,6 @@ class Operation(ABC):
         self._logger = get_logger()
 
     @abstractmethod
-    def process(self, filepath: str, params: dict) -> str:
-        """Returns output filepath"""
+    def process(self, src_filepath: str, params: dict) -> str:
+        """Returns dst_filepath"""
         pass

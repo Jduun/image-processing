@@ -8,7 +8,7 @@ from src.services.image_operations import Operation, DefaultOperationFactory
 
 
 class Reprojection(Operation):
-    def process(self, input_filepath: str, params: dict) -> str:
+    def process(self, src_filepath: str, params: dict) -> str:
         try:
             params = ReprojectionParams.model_validate(params)
         except ValidationError as e:
@@ -18,23 +18,23 @@ class Reprojection(Operation):
                 extra={"params": params, "e": e},
             )
 
-        filepath, ext = os.path.splitext(input_filepath)
-        output_filepath = f"{filepath}_reprojected{ext}"
+        filepath, ext = os.path.splitext(src_filepath)
+        dst_filepath = f"{filepath}_reprojected{ext}"
 
         self._logger.info(
             "Обработка изображения: перепроецирование",
             extra={
-                "input_filepath": input_filepath,
+                "src_filepath": src_filepath,
                 "params": params,
             },
         )
         gdal.Warp(
-            destNameOrDestDS=output_filepath,
-            srcDSOrSrcDSTab=input_filepath,
+            destNameOrDestDS=dst_filepath,
+            srcDSOrSrcDSTab=src_filepath,
             dstSRS=params.dst_srs,
         )
 
-        return output_filepath
+        return dst_filepath
 
 
 DefaultOperationFactory.register_operation("reprojection", Reprojection)

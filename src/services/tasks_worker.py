@@ -1,4 +1,3 @@
-import json
 import os
 import time
 from typing import Optional
@@ -48,18 +47,18 @@ class TaskWorker:
 
         file = self._file_service.get(task.input_image_id)
 
-        input_filepath = (
+        src_filepath = (
             f"{config.image_processing.folder}/{file.id}{file.extension}"
         )
         os.makedirs(config.image_processing.folder, exist_ok=True)
 
         try:
-            self._file_service.download(file.id, input_filepath)
+            self._file_service.download(file.id, src_filepath)
 
             start_time = time.perf_counter()
-            output_filepath = DefaultOperationFactory.create_operation(
+            dst_filepath = DefaultOperationFactory.create_operation(
                 task.operation_type
-            ).process(input_filepath, task.parameters)
+            ).process(src_filepath, task.parameters)
             end_time = time.perf_counter()
 
             duration_ms = int((end_time - start_time) * 1000)
@@ -77,13 +76,13 @@ class TaskWorker:
             return
         self._logger.info(
             "Изображение обработано и сохранено в image-processing",
-            extra={"output_filepath": output_filepath},
+            extra={"output_filepath": dst_filepath},
         )
 
-        filename = f"{task_id}_{os.path.basename(output_filepath)}"
+        filename = f"{task_id}_{os.path.basename(dst_filepath)}"
         comment = f"Обработанное изображение, задача {task.id}"
         uploaded_file = self._file_service.upload(
-            output_filepath, file.filepath, filename, comment
+            dst_filepath, file.filepath, filename, comment
         )
 
         with self._pg.begin():

@@ -1,3 +1,4 @@
+import json
 from http import HTTPStatus
 from typing import Optional
 
@@ -45,16 +46,36 @@ class FileService:
             f.write(response.content)
         self._logger.info("Файл сохранен", extra={"path": filepath})
 
-    def upload(self, files, data) -> Optional[FileDTO]:
-        upload_url = self.base_url
-        response = requests.post(upload_url, files=files, data=data)
+    def upload(
+        self, src_filepath: str, dst_filepath: str, filename: str, comment: str
+    ) -> Optional[FileDTO]:
+        with open(src_filepath, "rb") as f:
+            files = {"file": (filename, f)}
+            data = {
+                "json": json.dumps(
+                    {
+                        "filepath": dst_filepath,
+                        "comment": comment,
+                    },
+                    ensure_ascii=False,
+                )
+            }
 
-        if response.status_code != HTTPStatus.OK:
-            self._logger.warning(
-                "Ошибка при загрузке файла",
-                extra={"response.text": response.text},
+            upload_url = self.base_url
+            response = requests.post(upload_url, files=files, data=data)
+
+            if response.status_code != HTTPStatus.OK:
+                self._logger.warning(
+                    "Ошибка при загрузке файла",
+                    extra={"response.text": response.text},
+                )
+                return None
+
+            file = FileDTO.model_validate(response.json())
+
+            self._logger.info(
+                "Изображение сохранено в file-storage",
+                extra={"filepath": file.filepath, "filename": filename},
             )
-            return None
 
-        file = FileDTO.model_validate(response.json())
-        return file
+            return file

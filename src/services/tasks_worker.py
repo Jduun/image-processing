@@ -79,23 +79,11 @@ class TaskWorker:
             extra={"output_filepath": output_filepath},
         )
 
-        with open(output_filepath, "rb") as f:
-            filename = f"{task_id}_{os.path.basename(output_filepath)}"
-            files = {"file": (filename, f)}
-            data = {
-                "json": json.dumps(
-                    {
-                        "filepath": file.filepath,
-                        "comment": f"Обработанное изображение, задача {task.id}",
-                    },
-                    ensure_ascii=False,
-                )
-            }
-            uploaded_file = self._file_service.upload(files, data)
-            self._logger.info(
-                "Изображение сохранено в file-storage",
-                extra={"filepath": file.filepath, "filename": filename},
-            )
+        filename = f"{task_id}_{os.path.basename(output_filepath)}"
+        comment = f"Обработанное изображение, задача {task.id}"
+        uploaded_file = self._file_service.test_upload(
+            output_filepath, file.filepath, filename, comment
+        )
 
         with self._pg.begin():
             task.output_image_id = uploaded_file.id

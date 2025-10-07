@@ -1,5 +1,3 @@
-import os
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
@@ -11,7 +9,7 @@ pg_engine = create_engine(
     f"{config.postgres.password}@"
     f"{config.postgres.host}/"
     f"{config.postgres.db}",
-    echo=(os.getenv("DEBUG", "False") == "True"),
+    echo=config.image_processing.debug,
 )
 pg_session_maker = sessionmaker(bind=pg_engine, expire_on_commit=False)
 

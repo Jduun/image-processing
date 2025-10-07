@@ -1,13 +1,13 @@
-from typing import Optional
 from http import HTTPStatus
+from typing import Optional
 
 import pika
 from sqlalchemy.orm import Session
 
-from src.logger import get_logger
+from src.base.logger import get_logger
+from src.base.service import RabbitService
 from src.exceptions import ModuleException
 from src.models import Task, TaskCreateDTO, TaskDTO
-from src.rabbit import RabbitService
 
 
 class TaskService:

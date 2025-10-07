@@ -5,13 +5,33 @@
 ### docker-compose.yml
 ```yaml
 services:
+  file-storage:
+    image: file-storage:latest
+    restart: unless-stopped
+    volumes:
+      - ~/root_folder:/root_folder
+    ports:
+      - "127.0.0.1:5000:80"
+    env_file:
+      - ~/file-storage/.env
+
+  file-storage-db:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+    volumes:
+      - ~/postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+
   image-processing:
     image: image-processing:latest
     restart: unless-stopped
     ports:
-      - "5001:80"
-    env_file:
-      - .env
+      - "127.0.0.1:5001:80"
 
   image-processing-worker:
     image: image-processing:latest
@@ -21,8 +41,6 @@ services:
     volumes:
       - ~/images:/images
     command: ["python3", "-u", "/app/src/scripts/tasks_worker.py"]
-    env_file:
-      - .env
 
   image-processing-db:
     image: postgres:13
@@ -34,19 +52,23 @@ services:
     volumes:
       - ~/image_processing_db/postgres:/var/lib/postgresql/data
     ports:
-      - "5600:5432"
+      - "127.0.0.1:5600:5432"
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
 ```
 
 ### Пояснение к архитектуре
+`file-storage` - Flask приложение, предоставляющее API для работы с файлами
+
+`file-storage-db` - база данных PostgreSQL 
+
 `image-processing` - сервис, предоставляющий API для создания задач по обработке изображений и получения информации об этих задачах
 
 `image-processing-db` - база данных PostgreSQL для хранения информации о задачах
@@ -57,31 +79,30 @@ services:
 
 ### config.yaml
 ```yaml
-images_folder: "/images"
+image_processing:
+  host: "0.0.0.0"
+  port: 80
+  folder: "/images"
+  debug: false
+
+file_storage:
+  host: "file-storage"
+  port: 80
 
 postgres:
-  user: postgres
-  password: postgres
-  host: image-processing-db
-  db: postgres
+  user: "postgres"
+  password: "postgres"
+  host: "image-processing-db"
+  db: "postgres"
 
 rabbit:
-  host: rabbitmq
+  host: "rabbitmq"
   port: 5672
-  user: user
-  password: password
-  routing_key: image-processing
-  queue_name: image-processing
+  user: "user"
+  password: "password"
+  routing_key: "image-processing"
+  queue_name: "image-processing"
 ```
-
-### Переменные окружения
-- `APP_PORT=80`
-- `APP_HOST=0.0.0.0`
-- `FILE_STORAGE_HOST=172.17.0.1`
-- `FILE_STORAGE_PORT=5000`
-- `YAML_PATH=/app/src/config/config.yaml`
-- `DEBUG=False`
-
 ---
 
 ## API

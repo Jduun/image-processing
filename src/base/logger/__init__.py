@@ -1,5 +1,4 @@
 import logging
-import os
 
 
 class DataLoggerAdapter(logging.LoggerAdapter):
@@ -11,9 +10,11 @@ class DataLoggerAdapter(logging.LoggerAdapter):
 
 
 def setup_logger():
+    from src.config import config
+
     logger = logging.getLogger("app")
 
-    if os.getenv("DEBUG", "False") == "True":
+    if config.image_processing.debug:
         logger.setLevel(logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)

@@ -1,15 +1,23 @@
-images_folder: "/images"
+image_processing:
+  host: "0.0.0.0"
+  port: 80
+  folder: "/images"
+  debug: false
+
+file_storage:
+  host: "file-storage"
+  port: 80
 
 postgres:
-  user: postgres
-  password: postgres
-  host: image-processing-db
-  db: postgres
+  user: "postgres"
+  password: "postgres"
+  host: "image-processing-db"
+  db: "postgres"
 
 rabbit:
-  host: rabbitmq
+  host: "rabbitmq"
   port: 5672
-  user: user
-  password: password
-  routing_key: image-processing
-  queue_name: image-processing
+  user: "user"
+  password: "password"
+  routing_key: "image-processing"
+  queue_name: "image-processing"

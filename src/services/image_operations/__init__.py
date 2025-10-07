@@ -1,4 +1,4 @@
-from .base import *
-from .factory import *
+from .default_factory import *
+from .operation import *
 from .reprojection import *
 from .resizing import *

@@ -10,6 +10,7 @@ from src.base.service import RabbitService
 from src.config import config
 from src.models import Task, TaskStatus
 from src.services.image_operations import DefaultOperationFactory
+from src.services.files import FileService
 
 
 class TaskWorker:
@@ -17,7 +18,7 @@ class TaskWorker:
         self,
         pg_connection: Session,
         rabbit: RabbitService,
-        file_service: "FileService",
+        file_service: FileService,
     ):
         self._pg = pg_connection
         self._rabbit = rabbit
@@ -81,7 +82,7 @@ class TaskWorker:
 
         filename = f"{task_id}_{os.path.basename(output_filepath)}"
         comment = f"Обработанное изображение, задача {task.id}"
-        uploaded_file = self._file_service.test_upload(
+        uploaded_file = self._file_service.upload(
             output_filepath, file.filepath, filename, comment
         )
 

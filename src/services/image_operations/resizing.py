@@ -5,9 +5,11 @@ from pydantic import ValidationError
 
 from src.models import ResizingParams
 from src.services.image_operations import Operation, DefaultOperationFactory
+from src.services.image_operations.timer import timer
 
 
 class Resizing(Operation):
+    @timer
     def process(self, src_filepath: str, params: dict) -> str:
         try:
             params = ResizingParams.model_validate(params)

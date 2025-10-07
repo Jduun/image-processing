@@ -55,13 +55,12 @@ class TaskWorker:
         try:
             self._file_service.download(file.id, src_filepath)
 
-            start_time = time.perf_counter()
-            dst_filepath = DefaultOperationFactory.create_operation(
-                task.operation_type
-            ).process(src_filepath, task.parameters)
-            end_time = time.perf_counter()
+            dst_filepath, duration_ms = (
+                DefaultOperationFactory.create_operation(
+                    task.operation_type
+                ).process(src_filepath, task.parameters)
+            )
 
-            duration_ms = int((end_time - start_time) * 1000)
             with self._pg.begin():
                 self._pg.query(Task).filter(Task.id == task_id).update(
                     {"duration_ms": duration_ms}
@@ -76,7 +75,7 @@ class TaskWorker:
             return
         self._logger.info(
             "Изображение обработано и сохранено в image-processing",
-            extra={"output_filepath": dst_filepath},
+            extra={"dst_filepath": dst_filepath},
         )
 
         filename = f"{task_id}_{os.path.basename(dst_filepath)}"

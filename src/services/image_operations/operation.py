@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.base.logger import get_logger
+from src.base.module import get_logger
 from src.services.image_operations.timer import timer
 
 

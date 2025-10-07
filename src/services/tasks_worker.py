@@ -1,11 +1,10 @@
 import os
-import time
 from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from src.base.logger import get_logger
-from src.base.service import RabbitService
+from src.base.module import get_logger
+from src.base.sync.service import RabbitService
 from src.config import config
 from src.models import Task, TaskStatus
 from src.services.image_operations import DefaultOperationFactory

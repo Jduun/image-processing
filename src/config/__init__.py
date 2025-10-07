@@ -2,7 +2,7 @@ import yaml
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
-from src.base.config import RabbitFullConfig
+from src.base.sync.models import RabbitFullConfig
 
 
 class PostgresConfig(BaseSettings):

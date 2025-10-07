@@ -4,7 +4,7 @@ from typing import Optional
 
 import requests
 
-from src.base.logger import get_logger
+from src.base.module import get_logger
 from src.config import config
 from src.models import FileDTO
 

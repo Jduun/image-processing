@@ -1,9 +1,8 @@
 from flask import Flask, jsonify
 from flask.json.provider import DefaultJSONProvider
-from pydantic import BaseModel
 
 from src.config import config
-from src.exceptions import ModuleException
+from src.base.module.exceptions import ModuleException
 from src.injectors import connections
 from src.models import *  # noqa
 from src.routers import tasks_routers

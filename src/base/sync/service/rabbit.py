@@ -8,9 +8,9 @@ import pika
 from pika import BlockingConnection, ConnectionParameters, PlainCredentials
 from pika.adapters.blocking_connection import BlockingChannel
 
-from src.exceptions import ModuleException
-from src.base.logger import get_logger
-from src.base.config import (
+from src.base.module.exceptions import ModuleException
+from src.base.module import get_logger
+from src.base.sync.models import (
     RabbitFullConfig,
     RabbitConsumerConfig,
     RabbitPublisherConfig,

@@ -4,9 +4,8 @@ from typing import Optional
 import pika
 from sqlalchemy.orm import Session
 
-from src.base.logger import get_logger
-from src.base.service import RabbitService
-from src.exceptions import ModuleException
+from src.base.module import get_logger, ModuleException
+from src.base.sync.service import RabbitService
 from src.models import Task, TaskCreateDTO, TaskDTO
 
 

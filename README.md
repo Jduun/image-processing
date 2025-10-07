@@ -77,6 +77,8 @@ services:
 
 `rabbitmq` - очередь для хранения задач, позволяющая сделать обработку изображений асинхронной 
 
+Подробнее о `file-storage` [здесь](https://github.com/Jduun/file-storage).
+
 ### [config.yaml](./src/config/config.example.yaml)
 ```yaml
 image_processing:

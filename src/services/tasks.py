@@ -27,6 +27,7 @@ class TaskService:
         task = Task(**data.model_dump())
         with self._pg.begin():
             self._pg.add(task)
+
         self._logger.info(
             "Задача добавлена в БД",
             extra={"id": task.id},
@@ -37,6 +38,7 @@ class TaskService:
         )
         if published:
             return TaskDTO.model_validate(task)
+
         raise ModuleException("Не удалось добавить задачу в очередь")
 
     def get(self, task_id: int) -> TaskDTO:
@@ -53,6 +55,7 @@ class TaskService:
                     extra=task_dto.model_dump(),
                 )
                 return task_dto
+
             self._logger.warning("Задача не найдена", extra={"id": task_id})
             raise ModuleException(
                 "Задача не найдена", code=HTTPStatus.NOT_FOUND

@@ -1,15 +1,15 @@
-from abc import ABC, abstractmethod
-
-from src.base.module import get_logger
-from src.services.image_operations.timer import timer
+from src.services.image_operations.base import Operation
 
 
-class Operation(ABC):
-    def __init__(self):
-        self._logger = get_logger()
+class OperationService:
+    def __init__(self, operations: list[Operation]):
+        self._operations = {
+            operation.name: operation for operation in operations
+        }
 
-    @timer
-    @abstractmethod
-    def process(self, src_filepath: str, params: dict) -> str:
-        """Returns dst_filepath"""
-        pass
+    def get_operation(self, name: str) -> Operation:
+        operation = self._operations.get(name)
+        if operation is None:
+            raise ValueError(f"Неизвестная операция: {name}")
+
+        return operation

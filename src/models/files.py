@@ -1,7 +1,14 @@
 import os
 from typing import Optional
+from datetime import datetime
 
-from pydantic import BaseModel, field_validator, Field, ConfigDict
+from pydantic import (
+    BaseModel,
+    field_validator,
+    Field,
+    ConfigDict,
+    field_serializer,
+)
 
 
 class FileUpdateDTO(BaseModel):
@@ -15,11 +22,14 @@ class FileUpdateDTO(BaseModel):
         v = v.strip()
         if not v:
             v = "/"
+
         v = os.path.normpath(v).replace("\\", "/")
         if not v.endswith("/"):
             v += "/"
+
         if not v.startswith("/"):
             v = "/" + v
+
         return v
 
     @field_validator("comment")
@@ -36,3 +46,7 @@ class FileDTO(FileUpdateDTO):
     updated_at: str = Field()
 
     model_config = ConfigDict(from_attributes=True)
+
+    @field_serializer("created_at", "updated_at")
+    def serialize_datetime(self, dt: datetime):
+        return dt.isoformat()

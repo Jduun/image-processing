@@ -42,18 +42,6 @@ services:
       - ~/images:/images
     command: ["python3", "-u", "/app/src/scripts/tasks_worker.py"]
 
-  image-processing-db:
-    image: postgres:13
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres_image_processing
-    volumes:
-      - ~/image_processing_db/postgres:/var/lib/postgresql/data
-    ports:
-      - "127.0.0.1:5600:5432"
-
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -65,19 +53,16 @@ services:
 ```
 
 ### Пояснение к архитектуре
-`file-storage` - сервис, предоставляющий API для работы с файлами
+`file-storage` - сервис, предоставляющий API для работы с файлами. Подробнее [здесь](https://github.com/Jduun/file-storage)
 
-`file-storage-db` - база данных PostgreSQL 
+`file-storage-db` - база данных PostgreSQL, хранящая информацию о файлах и задачах
 
 `image-processing` - сервис, предоставляющий API для создания задач по обработке изображений и получения информации об этих задачах
-
-`image-processing-db` - база данных PostgreSQL для хранения информации о задачах
 
 `image-processing-worker` - обработчик задач из очереди 
 
 `rabbitmq` - очередь для хранения задач, позволяющая сделать обработку изображений асинхронной 
 
-Подробнее о `file-storage` [здесь](https://github.com/Jduun/file-storage).
 
 ### [config.yaml](./src/config/config.example.yaml)
 ```yaml
@@ -94,8 +79,8 @@ file_storage:
 postgres:
   user: "postgres"
   password: "postgres"
-  host: "image-processing-db"
-  db: "postgres"
+  host: "file-storage-db"
+  db: "postgres_file_storage"
 
 rabbit:
   host: "rabbitmq"

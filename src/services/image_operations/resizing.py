@@ -4,12 +4,12 @@ from osgeo import gdal
 from pydantic import ValidationError
 
 from src.models import ResizingParams
-from src.services.image_operations import Operation, DefaultOperationFactory
-from src.services.image_operations.timer import timer
+from src.services.image_operations import Operation
 
 
 class Resizing(Operation):
-    @timer
+    name = "resizing"
+
     def process(self, src_filepath: str, params: dict) -> str:
         try:
             params = ResizingParams.model_validate(params)
@@ -25,8 +25,10 @@ class Resizing(Operation):
 
         if params.width is None:
             params.width = width
+
         if params.height is None:
             params.height = height
+
         if params.width == width and params.height == height:
             return src_filepath
 
@@ -49,6 +51,3 @@ class Resizing(Operation):
         )
 
         return dst_filepath
-
-
-DefaultOperationFactory.register_operation("resizing", Resizing)

@@ -11,8 +11,8 @@ file_storage:
 postgres:
   user: "postgres"
   password: "postgres"
-  host: "image-processing-db"
-  db: "postgres"
+  host: "file-storage-db"
+  db: "postgres_file_storage"
 
 rabbit:
   host: "rabbitmq"

@@ -18,6 +18,7 @@ class PydanticJSONEncoder(DefaultJSONProvider):
     def default(self, obj):
         if isinstance(obj, BaseModel):
             return obj.model_dump()
+
         return super().default(obj)
 
 

@@ -5,20 +5,18 @@ from typing import Optional
 import requests
 
 from src.base.module import get_logger
-from src.config import config
+from src.config import FileStorage
 from src.models import FileDTO
 
 
 class FileService:
-    def __init__(self):
+    def __init__(self, config: FileStorage):
         self._logger = get_logger()
+        self._config = config
 
     @property
     def base_url(self):
-        return (
-            f"http://{config.file_storage.host}:"
-            f"{config.file_storage.port}/api/files"
-        )
+        return f"http://{self._config.host}:" f"{self._config.port}/api/files"
 
     def get(self, file_id: int) -> Optional[FileDTO]:
         get_url = f"{self.base_url}/{file_id}"
@@ -44,6 +42,7 @@ class FileService:
 
         with open(filepath, "wb") as f:
             f.write(response.content)
+
         self._logger.info("Файл сохранен", extra={"path": filepath})
 
     def upload(

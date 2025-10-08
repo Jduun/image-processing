@@ -2,8 +2,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field, ConfigDict
-from sqlalchemy import JSON, func
+from pydantic import BaseModel, Field, ConfigDict, field_serializer
+from sqlalchemy import JSON, func, TIMESTAMP
 from sqlalchemy.orm import mapped_column, Mapped, declarative_base
 
 Base = declarative_base()
@@ -27,9 +27,12 @@ class Task(Base):
     status: Mapped[str] = mapped_column(server_default=TaskStatus.QUEUED.value)
     duration_ms: Mapped[int] = mapped_column(default=0)
     created_at: Mapped[datetime] = mapped_column(
-        server_default=func.current_timestamp(), nullable=False
+        TIMESTAMP(timezone=True),
+        server_default=func.current_timestamp(),
+        nullable=False,
     )
     updated_at: Mapped[datetime] = mapped_column(
+        TIMESTAMP(timezone=True),
         server_default=func.current_timestamp(),
         onupdate=func.current_timestamp(),
     )
@@ -50,3 +53,7 @@ class TaskDTO(TaskCreateDTO):
     updated_at: datetime = Field()
 
     model_config = ConfigDict(from_attributes=True)
+
+    @field_serializer("created_at", "updated_at")
+    def serialize_datetime(self, dt: datetime):
+        return dt.isoformat()

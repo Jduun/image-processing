@@ -19,8 +19,8 @@ def setup_logger():
     else:
         logging.basicConfig(level=logging.INFO)
         logger.setLevel(logging.INFO)
-    logger.propagate = False
 
+    logger.propagate = False
     handler = logging.StreamHandler()
     formatter = logging.Formatter(
         "%(asctime)s [%(levelname)s] %(message)s -> %(data)s"

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from src.base.module import get_logger
 from src.base.sync.service import RabbitService
-from src.config import ImageProcessing
+from src.config import ImageProcessingConfig
 from src.models import Task, TaskStatus
 from src.services.image_operations import OperationService
 from src.services.files import FileService
@@ -19,7 +19,7 @@ class TaskWorker:
         rabbit: RabbitService,
         file_service: FileService,
         operation_service: OperationService,
-        config: ImageProcessing,
+        config: ImageProcessingConfig,
     ):
         self._pg = pg_connection
         self._rabbit = rabbit

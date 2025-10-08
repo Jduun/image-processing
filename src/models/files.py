@@ -42,8 +42,8 @@ class FileDTO(FileUpdateDTO):
     id: int = Field()
     extension: str = Field()
     size_bytes: int = Field()
-    created_at: str = Field()
-    updated_at: str = Field()
+    created_at: datetime = Field()
+    updated_at: datetime = Field()
 
     model_config = ConfigDict(from_attributes=True)
 

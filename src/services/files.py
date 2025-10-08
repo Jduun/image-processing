@@ -5,12 +5,12 @@ from typing import Optional
 import requests
 
 from src.base.module import get_logger
-from src.config import FileStorage
+from src.config import FileStorageConfig
 from src.models import FileDTO
 
 
 class FileService:
-    def __init__(self, config: FileStorage):
+    def __init__(self, config: FileStorageConfig):
         self._logger = get_logger()
         self._config = config
 

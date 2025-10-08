@@ -12,12 +12,12 @@ class PostgresConfig(BaseSettings):
     db: str = Field(default="db")
 
 
-class FileStorage(BaseSettings):
+class FileStorageConfig(BaseSettings):
     host: str = Field(default="file-storage")
     port: int = Field(default=80)
 
 
-class ImageProcessing(BaseSettings):
+class ImageProcessingConfig(BaseSettings):
     host: str = Field(default="0.0.0.0")
     port: int = Field(default=80)
     folder: str = Field(default="/images")
@@ -25,8 +25,10 @@ class ImageProcessing(BaseSettings):
 
 
 class AppConfig(BaseSettings):
-    image_processing: ImageProcessing = Field(default_factory=ImageProcessing)
-    file_storage: FileStorage = Field(default_factory=FileStorage)
+    image_processing: ImageProcessingConfig = Field(
+        default_factory=ImageProcessingConfig
+    )
+    file_storage: FileStorageConfig = Field(default_factory=FileStorageConfig)
     postgres: PostgresConfig = Field(default_factory=PostgresConfig)
     rabbit: RabbitFullConfig = Field(default_factory=RabbitFullConfig)
 

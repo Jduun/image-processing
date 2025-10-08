@@ -115,7 +115,7 @@ rabbit:
 **Ответ**: `application/json` `200 OK`
 ```json
 {
-    "created_at": "Thu, 02 Oct 2025 08:13:11 GMT",
+    "created_at": "2025-10-02T08:13:11.984465",
     "duration_ms": 0,
     "id": 138,
     "input_image_id": 34,
@@ -127,7 +127,7 @@ rabbit:
         "resample_alg": "cubic"
     },
     "status": "queued",
-    "updated_at": "Thu, 02 Oct 2025 08:13:11 GMT"
+    "updated_at": "2025-10-02T08:13.984465"
 }
 ```
 **Ошибки**:
@@ -150,7 +150,7 @@ rabbit:
 **Ответ**: `application/json` `200 OK`
 ```json
 {
-    "created_at": "Thu, 02 Oct 2025 08:14:00 GMT",
+    "created_at": "2025-10-02T08:14:00.993634",
     "duration_ms": 0,
     "id": 139,
     "input_image_id": 34,
@@ -160,7 +160,7 @@ rabbit:
         "dst_srs": "EPSG:3857"
     },
     "status": "queued",
-    "updated_at": "Thu, 02 Oct 2025 08:14:00 GMT"
+    "updated_at": "2025-10-02T08:14:00.993634"
 }
 ```
 
@@ -173,7 +173,7 @@ rabbit:
 **Ответ**: `application/json` `200 OK`
 ```json
 {
-    "created_at": "Thu, 02 Oct 2025 08:14:00 GMT",
+    "created_at": "2025-10-02T08:14:00.693679",
     "duration_ms": 555,
     "id": 139,
     "input_image_id": 34,
@@ -183,7 +183,7 @@ rabbit:
         "dst_srs": "EPSG:3857"
     },
     "status": "done",
-    "updated_at": "Thu, 02 Oct 2025 08:14:01 GMT"
+    "updated_at": "2025-10-02T08:14:01.248679"
 }
 ```
 

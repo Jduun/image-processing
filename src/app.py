@@ -20,7 +20,7 @@ class PydanticJSONEncoder(DefaultJSONProvider):
             return obj.model_dump()
 
         if isinstance(obj, datetime):
-            return obj.isoformat()
+            return obj.isoformat().replace("+00:00", "")
 
         return super().default(obj)
 
@@ -36,6 +36,7 @@ def handle_app_exception(e: ModuleException):
         import traceback
 
         traceback.print_exc()
+
     return jsonify(e.json()), e.code
 
 

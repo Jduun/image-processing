@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field, ConfigDict, field_serializer
+from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import JSON, func, TIMESTAMP
 from sqlalchemy.orm import mapped_column, Mapped, declarative_base
 
@@ -53,7 +53,3 @@ class TaskDTO(TaskCreateDTO):
     updated_at: datetime = Field()
 
     model_config = ConfigDict(from_attributes=True)
-
-    @field_serializer("created_at", "updated_at")
-    def serialize_datetime(self, dt: datetime):
-        return dt.isoformat()

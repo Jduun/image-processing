@@ -7,7 +7,6 @@ from pydantic import (
     field_validator,
     Field,
     ConfigDict,
-    field_serializer,
 )
 
 
@@ -46,7 +45,3 @@ class FileDTO(FileUpdateDTO):
     updated_at: datetime = Field()
 
     model_config = ConfigDict(from_attributes=True)
-
-    @field_serializer("created_at", "updated_at")
-    def serialize_datetime(self, dt: datetime):
-        return dt.isoformat()

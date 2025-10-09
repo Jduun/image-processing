@@ -4,10 +4,10 @@ from osgeo import gdal
 from pydantic import ValidationError
 
 from src.models import ResizingParams
-from src.services.image_operations import Operation
+from src.services.image_operations import BaseOperation
 
 
-class Resizing(Operation):
+class Resizing(BaseOperation):
     name = "resizing"
 
     def process(self, src_filepath: str, params: dict) -> str:

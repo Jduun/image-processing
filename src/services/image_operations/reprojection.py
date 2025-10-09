@@ -4,10 +4,10 @@ from osgeo import gdal
 from pydantic import ValidationError
 
 from src.models import ReprojectionParams
-from src.services.image_operations import Operation
+from src.services.image_operations import BaseOperation
 
 
-class Reprojection(Operation):
+class Reprojection(BaseOperation):
     name = "reprojection"
 
     def process(self, src_filepath: str, params: dict) -> str:

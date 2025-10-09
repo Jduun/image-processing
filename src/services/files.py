@@ -16,7 +16,7 @@ class FileService:
 
     @property
     def base_url(self):
-        return f"http://{self._config.host}:" f"{self._config.port}/api/files"
+        return f"http://{self._config.host}:{self._config.port}/api/files"
 
     def get(self, file_id: int) -> Optional[FileDTO]:
         get_url = f"{self.base_url}/{file_id}"

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from src.base.module import get_logger
 
 
-class Operation(ABC):
+class BaseOperation(ABC):
     name: str
 
     def __init__(self):
